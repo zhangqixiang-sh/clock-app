@@ -6,13 +6,7 @@ on:
   push:
     branches: ["main"]
     paths:
-      - 'src/**'
-      - 'public/**'
-      - 'index.html'
-      - 'package.json'
-      - 'vite.config.ts'
-      - 'tsconfig*.json'
-      - '.github/workflows/**'
+      - './dist'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
