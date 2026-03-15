@@ -1,7 +1,7 @@
 import type { Language } from '../types';
 
 export const translations: Record<string, Record<Language, string>> = {
-  'app.title': { zh: '趣味学时钟', en: 'Fun Clock Learning' },
+  'app.title': { zh: '🕰时钟教学', en: 'Fun Clock Learning' },
   'nav.learn': { zh: '📖 认识时钟', en: '📖 Learn' },
   'nav.practice': { zh: '🖐️ 自由练习', en: '🖐️ Practice' },
   'nav.quiz': { zh: '🎯 测验', en: '🎯 Quiz' },
