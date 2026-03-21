@@ -26,9 +26,9 @@ function formatTimeZh(h: number, m: number): string {
   const hh = hNorm === 0 ? 12 : hNorm;
   const hStr = zhDigits[hh];
   if (mInt === 0) return hStr + '点整';
-  if (mInt === 15) return hStr + '点一刻';
+  if (mInt === 15) return hStr + '点十五分';
   if (mInt === 30) return hStr + '点半';
-  if (mInt === 45) return hStr + '点三刻';
+  if (mInt === 45) return hStr + '点四十五分';
   if (mInt < 10) return hStr + '点零' + zhDigits[mInt] + '分';
   if (mInt <= 10) return hStr + '点' + zhDigits[mInt] + '分';
   if (mInt < 20) return hStr + '点十' + (mInt - 10 > 0 ? zhDigits[mInt - 10] : '') + '分';

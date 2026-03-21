@@ -278,6 +278,16 @@ export const QuizModule: React.FC<QuizModuleProps> = ({ t, soundManager, lang })
 
     return (
       <div className="quiz-body">
+        <div id="quiz-clock-wrap">
+          <Clock
+            ref={clockRef}
+            interactive={true}
+            showSecond={false}
+            hours={12}
+            minutes={0}
+            snapTo5={true}
+          />
+        </div>
         <div className="quiz-right-panel">
           <div className="quiz-question">{t('quiz.question.b')}</div>
           <div className="quiz-target-time">{formatTimeDigital(q.h, q.m)}</div>
@@ -290,16 +300,6 @@ export const QuizModule: React.FC<QuizModuleProps> = ({ t, soundManager, lang })
           >
             {answered ? (selectedAnswer === 'correct' ? t('quiz.correct') : t('quiz.answer') + formatTimeDigital(q.h, q.m)) : t('quiz.submit')}
           </button>
-        </div>
-        <div id="quiz-clock-wrap">
-          <Clock
-            ref={clockRef}
-            interactive={true}
-            showSecond={false}
-            hours={12}
-            minutes={0}
-            snapTo5={true}
-          />
         </div>
       </div>
     );

@@ -883,7 +883,7 @@
         'quiz.wrong': { zh: '再想想哦～', en: 'Try again~' },
         'quiz.answer': { zh: '正确答案是：', en: 'The answer is: ' },
         'quiz.diff.medium': { zh: '半点', en: 'Half' },
-        'quiz.diff.hard': { zh: '刻钟', en: 'Quarter' },
+        'quiz.diff.hard': { zh: '15分钟', en: 'Quarter' },
         'quiz.diff.expert': { zh: '5分钟', en: '5-min' },
         'quiz.diff.minute': { zh: '1分钟', en: '1-min' },
         'quiz.difficulty': { zh: '选择难度：', en: 'Difficulty:' },
@@ -960,9 +960,9 @@
         const hh = hNorm === 0 ? 12 : hNorm;
         const hStr = zhDigits[hh];
         if (mInt === 0) return hStr + '点整';
-        if (mInt === 15) return hStr + '点一刻';
+        if (mInt === 15) return hStr + '点十五分';
         if (mInt === 30) return hStr + '点半';
-        if (mInt === 45) return hStr + '点三刻';
+        if (mInt === 45) return hStr + '点四十五分';
         if (mInt < 10) return hStr + '点零' + zhDigits[mInt] + '分';
         if (mInt <= 10) return hStr + '点' + zhDigits[mInt] + '分';
         if (mInt < 20) return hStr + '点十' + (mInt - 10 > 0 ? zhDigits[mInt - 10] : '') + '分';
