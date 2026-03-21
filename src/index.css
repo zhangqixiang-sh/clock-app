@@ -602,6 +602,13 @@ body {
   justify-content: center;
 }
 
+.practice-toggles {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .snap-toggle {
   display: flex;
   align-items: center;
@@ -625,6 +632,11 @@ body {
   height: 22px;
   accent-color: var(--coral);
   cursor: pointer;
+}
+
+/* Hidden placeholder - invisible but maintains layout space */
+.hidden-placeholder {
+  visibility: hidden;
 }
 
 /* ===== Module: Quiz ===== */
@@ -658,6 +670,7 @@ body {
   font-size: 22px;
   font-weight: 900;
   color: var(--coral);
+  letter-spacing: 6px;
 }
 
 .quiz-progress {
@@ -948,7 +961,7 @@ body {
 
 .summary-stars {
   font-size: 56px;
-  letter-spacing: 8px;
+  letter-spacing: 16px;
   animation: starBurst 0.8s var(--ease-spring);
 }
 

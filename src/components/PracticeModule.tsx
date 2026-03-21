@@ -13,6 +13,7 @@ interface PracticeModuleProps {
 export const PracticeModule: React.FC<PracticeModuleProps> = ({ t, soundManager, lang }) => {
   const [time, setTime] = useState<TimeState>({ hours: 12, minutes: 0, seconds: 0 });
   const [snapTo5, setSnapTo5] = useState(true);
+  const [showTime, setShowTime] = useState(true);
   const clockRef = useRef<ClockRef>(null);
 
   const handleTimeChange = useCallback((newTime: TimeState) => {
@@ -35,6 +36,11 @@ export const PracticeModule: React.FC<PracticeModuleProps> = ({ t, soundManager,
     setSnapTo5(e.target.checked);
   };
 
+  const handleShowTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    soundManager.click();
+    setShowTime(e.target.checked);
+  };
+
   return (
     <section className="module active" id="module-practice">
       <div className="practice-layout">
@@ -50,8 +56,12 @@ export const PracticeModule: React.FC<PracticeModuleProps> = ({ t, soundManager,
           />
         </div>
         <div className="practice-info">
-          <div className="digital-time">{formatTimeDigital(time.hours, time.minutes)}</div>
-          <div className="time-words">{formatTimeWords(time.hours, time.minutes, lang)}</div>
+          <div className={`digital-time ${!showTime ? 'hidden-placeholder' : ''}`}>
+            {formatTimeDigital(time.hours, time.minutes)}
+          </div>
+          <div className={`time-words ${!showTime ? 'hidden-placeholder' : ''}`}>
+            {formatTimeWords(time.hours, time.minutes, lang)}
+          </div>
           <div className="practice-buttons">
             <button className="btn btn-secondary" onClick={handleReset}>
               {t('practice.reset')}
@@ -60,15 +70,26 @@ export const PracticeModule: React.FC<PracticeModuleProps> = ({ t, soundManager,
               {t('practice.now')}
             </button>
           </div>
-          <label className="snap-toggle">
-            <input
-              type="checkbox"
-              className="snap-check"
-              checked={snapTo5}
-              onChange={handleSnapChange}
-            />
-            <span>{t('practice.snap')}</span>
-          </label>
+          <div className="practice-toggles">
+            <label className="snap-toggle">
+              <input
+                type="checkbox"
+                className="snap-check"
+                checked={snapTo5}
+                onChange={handleSnapChange}
+              />
+              <span>{t('practice.snap')}</span>
+            </label>
+            <label className="snap-toggle">
+              <input
+                type="checkbox"
+                className="snap-check"
+                checked={showTime}
+                onChange={handleShowTimeChange}
+              />
+              <span>{t('practice.showTime')}</span>
+            </label>
+          </div>
         </div>
       </div>
     </section>

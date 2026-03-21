@@ -10,6 +10,7 @@ export const translations: Record<string, Record<Language, string>> = {
   'practice.reset': { zh: '🔄 重置', en: '🔄 Reset' },
   'practice.now': { zh: '⏰ 当前时间', en: '⏰ Now' },
   'practice.snap': { zh: '吸附到5分钟', en: 'Snap to 5 min' },
+  'practice.showTime': { zh: '显示时间', en: 'Show Time' },
   // Learn steps
   'learn.s1.title': { zh: '认识钟面', en: 'The Clock Face' },
   'learn.s1.text': { zh: '这是一个钟面！它是圆形的，上面有1到12这12个数字，均匀地排列在一圈上。最上面是12，最下面是6，右边是3，左边是9。钟面上还有很多小刻度线，一共有60条小格子。', en: "This is a clock face! It's round with numbers 1 to 12 arranged in a circle. 12 is at the top, 6 at the bottom, 3 on the right, and 9 on the left. There are also 60 small tick marks around the edge." },
