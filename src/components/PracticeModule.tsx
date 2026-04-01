@@ -51,7 +51,7 @@ export const PracticeModule: React.FC<PracticeModuleProps> = ({ t, soundManager,
             showSecond={false}
             hours={12}
             minutes={0}
-            snapTo5={snapTo5}
+            snapInterval={snapTo5 ? 5 : 1}
             onTimeChange={handleTimeChange}
           />
         </div>
