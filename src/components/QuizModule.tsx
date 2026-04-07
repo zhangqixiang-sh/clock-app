@@ -305,9 +305,19 @@ export const QuizModule: React.FC<QuizModuleProps> = ({ t, soundManager, lang })
     );
   };
 
+  const handleBackToSetup = () => {
+    soundManager.click();
+    setQuizState('setup');
+    setAnswered(false);
+    setSelectedAnswer(null);
+  };
+
   const renderQuestion = () => (
     <>
       <div className="quiz-header">
+        <button className="quiz-back-btn" onClick={handleBackToSetup} title={t('quiz.back')}>
+          ◀
+        </button>
         <div className="quiz-score">
           {'⭐'.repeat(score)}{'☆'.repeat(TOTAL_QUESTIONS - score)}
         </div>

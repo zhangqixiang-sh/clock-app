@@ -666,6 +666,32 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
+.quiz-back-btn {
+  position: absolute;
+  left: 24px;
+  border: 2px solid var(--cream-dark);
+  background: var(--warm-white);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-spring);
+  font-family: inherit;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.quiz-back-btn:hover {
+  border-color: var(--coral-light);
+  color: var(--coral);
+  background: var(--cream);
+}
+
 .quiz-score {
   font-size: 22px;
   font-weight: 900;
