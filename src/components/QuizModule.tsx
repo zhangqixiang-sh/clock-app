@@ -1,9 +1,8 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { Clock } from './Clock';
 import type { ClockRef } from './Clock';
 import type { QuizMode, Difficulty, QuizState, Question } from '../types';
 import { formatTimeDigital, formatTimeWords } from '../utils';
-import { useFeedback, FeedbackOverlay } from './Feedback';
 
 interface QuizModuleProps {
   t: (key: string, params?: Record<string, string | number>) => string;
@@ -21,15 +20,24 @@ const TOTAL_QUESTIONS = 10;
 export const QuizModule: React.FC<QuizModuleProps> = ({ t, soundManager, lang }) => {
   const [mode, setMode] = useState<QuizMode>('A');
   const [difficulty, setDifficulty] = useState<Difficulty>('medium');
+  const [isCompact, setIsCompact] = useState(false);
+
+  useEffect(() => {
+    const checkWidth = () => setIsCompact(window.innerWidth < 480);
+    checkWidth();
+    window.addEventListener('resize', checkWidth);
+    return () => window.removeEventListener('resize', checkWidth);
+  }, []);
   const [quizState, setQuizState] = useState<QuizState>('setup');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQ, setCurrentQ] = useState(0);
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [currentOptions, setCurrentOptions] = useState<{ h: number; m: number; key: string }[]>([]);
+  const [results, setResults] = useState<('correct' | 'wrong' | null)[]>(Array(TOTAL_QUESTIONS).fill(null));
 
   const clockRef = useRef<ClockRef>(null);
-  const { feedback, showFeedback } = useFeedback();
 
   // Generate random time based on difficulty
   const generateTime = useCallback((): Question => {
@@ -117,6 +125,8 @@ export const QuizModule: React.FC<QuizModuleProps> = ({ t, soundManager, lang })
     setQuizState('playing');
     setAnswered(false);
     setSelectedAnswer(null);
+    setCurrentOptions(generateDistractors(newQuestions[0]));
+    setResults(Array(TOTAL_QUESTIONS).fill(null));
   };
 
   const handleModeAAnswer = (opt: { h: number; m: number; key: string }) => {
@@ -131,10 +141,18 @@ export const QuizModule: React.FC<QuizModuleProps> = ({ t, soundManager, lang })
     if (isCorrect) {
       setScore(s => s + 1);
       soundManager.correct();
-      showFeedback('🎉', 800);
+      setResults(prev => {
+        const next = [...prev];
+        next[currentQ] = 'correct';
+        return next;
+      });
     } else {
       soundManager.wrong();
-      showFeedback('🤔', 800);
+      setResults(prev => {
+        const next = [...prev];
+        next[currentQ] = 'wrong';
+        return next;
+      });
     }
 
     setTimeout(() => nextQuestion(), 1500);
@@ -158,10 +176,18 @@ export const QuizModule: React.FC<QuizModuleProps> = ({ t, soundManager, lang })
     if (isCorrect) {
       setScore(s => s + 1);
       soundManager.correct();
-      showFeedback('🎉', 800);
+      setResults(prev => {
+        const next = [...prev];
+        next[currentQ] = 'correct';
+        return next;
+      });
     } else {
       soundManager.wrong();
-      showFeedback('🤔', 800);
+      setResults(prev => {
+        const next = [...prev];
+        next[currentQ] = 'wrong';
+        return next;
+      });
       clockRef.current.setTime(q.h, q.m, 0);
     }
 
@@ -176,6 +202,7 @@ export const QuizModule: React.FC<QuizModuleProps> = ({ t, soundManager, lang })
       setCurrentQ(q => q + 1);
       setAnswered(false);
       setSelectedAnswer(null);
+      setCurrentOptions(generateDistractors(questions[currentQ + 1]));
     }
   };
 
@@ -234,7 +261,7 @@ export const QuizModule: React.FC<QuizModuleProps> = ({ t, soundManager, lang })
 
   const renderModeA = () => {
     const q = questions[currentQ];
-    const options = generateDistractors(q);
+    const options = currentOptions;
 
     return (
       <div className="quiz-body">
@@ -319,7 +346,12 @@ export const QuizModule: React.FC<QuizModuleProps> = ({ t, soundManager, lang })
           ◀
         </button>
         <div className="quiz-score">
-          {'⭐'.repeat(score)}{'☆'.repeat(TOTAL_QUESTIONS - score)}
+          {results.map((r, i) => {
+            const isDot = isCompact;
+            if (r === 'correct') return <span key={i} className={isDot ? 'dot-correct' : 'star-correct'}>{isDot ? '' : '★'}</span>;
+            if (r === 'wrong') return <span key={i} className={isDot ? 'dot-wrong' : 'star-wrong'}>{isDot ? '' : '★'}</span>;
+            return <span key={i} className={isDot ? 'dot-empty' : 'star-empty'}>{isDot ? '' : '☆'}</span>;
+          })}
         </div>
         <div className="quiz-progress">{currentQ + 1} / {TOTAL_QUESTIONS}</div>
       </div>
@@ -336,9 +368,6 @@ export const QuizModule: React.FC<QuizModuleProps> = ({ t, soundManager, lang })
 
     return (
       <div className="quiz-summary">
-        <div className="summary-stars">
-          {'⭐'.repeat(score)}{'☆'.repeat(TOTAL_QUESTIONS - score)}
-        </div>
         <div className="summary-msg">{t(msgKey)}</div>
         <div className="summary-score">{t('summary.score', { n: score })}</div>
         <div style={{ display: 'flex', gap: '12px', marginTop: '16px' }}>
@@ -363,7 +392,6 @@ export const QuizModule: React.FC<QuizModuleProps> = ({ t, soundManager, lang })
         {quizState === 'playing' && renderQuestion()}
         {quizState === 'summary' && renderSummary()}
       </div>
-      <FeedbackOverlay feedback={feedback} />
     </section>
   );
 };

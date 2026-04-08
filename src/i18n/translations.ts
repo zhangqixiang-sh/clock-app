@@ -44,7 +44,7 @@ export const translations: Record<string, Record<Language, string>> = {
   'quiz.selectMode': { zh: '选择模式：', en: 'Select Mode:' },
   // Summary
   'summary.perfect': { zh: '太棒了！你是时钟小天才！🎉', en: "Amazing! You're a Clock Master! 🎉" },
-  'summary.great': { zh: '做得很好！继续加油！⭐', en: 'Great job! Keep it up! ⭐' },
+  'summary.great': { zh: '做得很好！继续加油！💪', en: 'Great job! Keep it up! 💪' },
   'summary.ok': { zh: '不错的尝试，多练习会更好！💪', en: 'Nice try, practice makes perfect! 💪' },
   'summary.try': { zh: '没关系，我们再试一次吧！😊', en: "It's OK, let's try again! 😊" },
   'summary.score': { zh: '你答对了 {n}/10 题', en: 'You got {n}/10 correct' },
